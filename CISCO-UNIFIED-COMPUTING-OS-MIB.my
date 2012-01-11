@@ -1,0 +1,295 @@
+-- *********************************************************************
+-- CISCO-UNIFIED-COMPUTING-OS-MIB.my
+-- 
+-- MIB representation of the Cisco Unified Computing System
+-- OS management information model package
+-- 
+-- Created September 2011 by Charles Bullis
+-- 
+-- Copyright (c) 2005-2011 Cisco Systems, Inc. All rights reserved.
+-- 
+-- *********************************************************************
+
+CISCO-UNIFIED-COMPUTING-OS-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY,
+    OBJECT-TYPE,
+    Counter32,
+    Gauge32,
+    TimeTicks,
+    Counter64,
+    Unsigned32
+        FROM SNMPv2-SMI
+    TEXTUAL-CONVENTION,
+    RowPointer,
+    DateAndTime,
+    DisplayString,
+    MacAddress,
+    TimeInterval,
+    TimeStamp,
+    TruthValue
+        FROM SNMPv2-TC
+    SnmpAdminString
+        FROM SNMP-FRAMEWORK-MIB
+    InetAddressIPv4,
+    InetAddressIPv6
+        FROM INET-ADDRESS-MIB
+    ciscoMgmt
+        FROM CISCO-SMI
+    CiscoNetworkAddress,
+    Unsigned64,
+    CiscoInetAddressMask,
+    CiscoAlarmSeverity,
+    TimeIntervalSec
+        FROM CISCO-TC
+    ciscoUnifiedComputingMIBObjects,
+    CucsManagedObjectId,
+    CucsManagedObjectDn
+        FROM CISCO-UNIFIED-COMPUTING-MIB
+    CucsHostagAction,
+    CucsHostagAgentType,
+    CucsHostagEvent,
+    CucsOsOsType
+        FROM CISCO-UNIFIED-COMPUTING-TC-MIB;
+
+cucsOsObjects MODULE-IDENTITY
+    LAST-UPDATED    "201109150000Z"
+    ORGANIZATION    "Cisco Systems Inc."
+    CONTACT-INFO
+        "Cisco Systems
+        Customer Service
+        
+        Postal: 170 W Tasman Drive
+        San Jose, CA  95134
+        USA
+        
+        Tel: +1 800 553 -NETS
+        
+        E-mail: cs-san@cisco.com, cs-lan-switch-snmp@cisco.com"
+    DESCRIPTION
+        "MIB representation of the Cisco Unified Computing System
+        OS management information model package"
+    ::= { ciscoUnifiedComputingMIBObjects 35 }
+
+cucsOsAgentTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsOsAgentEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS os:Agent managed object table"
+    ::= { cucsOsObjects 1 }
+
+cucsOsAgentEntry OBJECT-TYPE
+    SYNTAX           CucsOsAgentEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsOsAgentTable table."
+    INDEX { cucsOsAgentInstanceId }
+    ::= { cucsOsAgentTable 1 }
+
+CucsOsAgentEntry ::= SEQUENCE {
+    cucsOsAgentInstanceId                                            CucsManagedObjectId,
+    cucsOsAgentDn                                                    CucsManagedObjectDn,
+    cucsOsAgentRn                                                    SnmpAdminString,
+    cucsOsAgentLastCmd                                               CucsHostagAction,
+    cucsOsAgentLastEvt                                               CucsHostagEvent,
+    cucsOsAgentLastEvtTs                                             DateAndTime,
+    cucsOsAgentPrevCmd                                               CucsHostagAction,
+    cucsOsAgentPrevEvt                                               CucsHostagEvent,
+    cucsOsAgentType                                                  CucsHostagAgentType,
+    cucsOsAgentVendor                                                SnmpAdminString,
+    cucsOsAgentVersion                                               SnmpAdminString
+}
+
+cucsOsAgentInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsOsAgentEntry 1 }
+
+cucsOsAgentDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:dn managed object property"
+    ::= { cucsOsAgentEntry 2 }
+
+cucsOsAgentRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:rn managed object property"
+    ::= { cucsOsAgentEntry 3 }
+
+cucsOsAgentLastCmd OBJECT-TYPE
+    SYNTAX       CucsHostagAction
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:lastCmd managed object property"
+    ::= { cucsOsAgentEntry 4 }
+
+cucsOsAgentLastEvt OBJECT-TYPE
+    SYNTAX       CucsHostagEvent
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:lastEvt managed object property"
+    ::= { cucsOsAgentEntry 5 }
+
+cucsOsAgentLastEvtTs OBJECT-TYPE
+    SYNTAX       DateAndTime
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:lastEvtTs managed object property"
+    ::= { cucsOsAgentEntry 6 }
+
+cucsOsAgentPrevCmd OBJECT-TYPE
+    SYNTAX       CucsHostagAction
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:prevCmd managed object property"
+    ::= { cucsOsAgentEntry 7 }
+
+cucsOsAgentPrevEvt OBJECT-TYPE
+    SYNTAX       CucsHostagEvent
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:prevEvt managed object property"
+    ::= { cucsOsAgentEntry 8 }
+
+cucsOsAgentType OBJECT-TYPE
+    SYNTAX       CucsHostagAgentType
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:type managed object property"
+    ::= { cucsOsAgentEntry 9 }
+
+cucsOsAgentVendor OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:vendor managed object property"
+    ::= { cucsOsAgentEntry 10 }
+
+cucsOsAgentVersion OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Agent:version managed object property"
+    ::= { cucsOsAgentEntry 11 }
+
+cucsOsInstanceTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsOsInstanceEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS os:Instance managed object table"
+    ::= { cucsOsObjects 2 }
+
+cucsOsInstanceEntry OBJECT-TYPE
+    SYNTAX           CucsOsInstanceEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsOsInstanceTable table."
+    INDEX { cucsOsInstanceInstanceId }
+    ::= { cucsOsInstanceTable 1 }
+
+CucsOsInstanceEntry ::= SEQUENCE {
+    cucsOsInstanceInstanceId                                         CucsManagedObjectId,
+    cucsOsInstanceDn                                                 CucsManagedObjectDn,
+    cucsOsInstanceRn                                                 SnmpAdminString,
+    cucsOsInstanceHostname                                           SnmpAdminString,
+    cucsOsInstanceKernelName                                         SnmpAdminString,
+    cucsOsInstanceKernelRelease                                      SnmpAdminString,
+    cucsOsInstanceKernelVersion                                      SnmpAdminString,
+    cucsOsInstanceName                                               SnmpAdminString,
+    cucsOsInstanceType                                               CucsOsOsType
+}
+
+cucsOsInstanceInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsOsInstanceEntry 1 }
+
+cucsOsInstanceDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Instance:dn managed object property"
+    ::= { cucsOsInstanceEntry 2 }
+
+cucsOsInstanceRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Instance:rn managed object property"
+    ::= { cucsOsInstanceEntry 3 }
+
+cucsOsInstanceHostname OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Instance:hostname managed object property"
+    ::= { cucsOsInstanceEntry 4 }
+
+cucsOsInstanceKernelName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Instance:kernelName managed object property"
+    ::= { cucsOsInstanceEntry 5 }
+
+cucsOsInstanceKernelRelease OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Instance:kernelRelease managed object property"
+    ::= { cucsOsInstanceEntry 6 }
+
+cucsOsInstanceKernelVersion OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Instance:kernelVersion managed object property"
+    ::= { cucsOsInstanceEntry 7 }
+
+cucsOsInstanceName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Instance:name managed object property"
+    ::= { cucsOsInstanceEntry 8 }
+
+cucsOsInstanceType OBJECT-TYPE
+    SYNTAX       CucsOsOsType
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS os:Instance:type managed object property"
+    ::= { cucsOsInstanceEntry 9 }
+
+END

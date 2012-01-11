@@ -1,0 +1,351 @@
+-- *********************************************************************
+-- CISCO-UNIFIED-COMPUTING-NETWORK-MIB.my
+-- 
+-- MIB representation of the Cisco Unified Computing System
+-- NETWORK management information model package
+-- 
+-- Created September 2011 by Charles Bullis
+-- 
+-- Copyright (c) 2005-2011 Cisco Systems, Inc. All rights reserved.
+-- 
+-- *********************************************************************
+
+CISCO-UNIFIED-COMPUTING-NETWORK-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY,
+    OBJECT-TYPE,
+    Counter32,
+    Gauge32,
+    TimeTicks,
+    Counter64,
+    Unsigned32
+        FROM SNMPv2-SMI
+    TEXTUAL-CONVENTION,
+    RowPointer,
+    DateAndTime,
+    DisplayString,
+    MacAddress,
+    TimeInterval,
+    TimeStamp,
+    TruthValue
+        FROM SNMPv2-TC
+    SnmpAdminString
+        FROM SNMP-FRAMEWORK-MIB
+    InetAddressIPv4,
+    InetAddressIPv6
+        FROM INET-ADDRESS-MIB
+    ciscoMgmt
+        FROM CISCO-SMI
+    CiscoNetworkAddress,
+    Unsigned64,
+    CiscoInetAddressMask,
+    CiscoAlarmSeverity,
+    TimeIntervalSec
+        FROM CISCO-TC
+    ciscoUnifiedComputingMIBObjects,
+    CucsManagedObjectId,
+    CucsManagedObjectDn
+        FROM CISCO-UNIFIED-COMPUTING-MIB
+    CucsMgmtAdminState,
+    CucsNetworkElementOperability,
+    CucsNetworkIfStatsType,
+    CucsNetworkIfStatsUnits,
+    CucsNetworkSwitchId
+        FROM CISCO-UNIFIED-COMPUTING-TC-MIB;
+
+cucsNetworkObjects MODULE-IDENTITY
+    LAST-UPDATED    "201109150000Z"
+    ORGANIZATION    "Cisco Systems Inc."
+    CONTACT-INFO
+        "Cisco Systems
+        Customer Service
+        
+        Postal: 170 W Tasman Drive
+        San Jose, CA  95134
+        USA
+        
+        Tel: +1 800 553 -NETS
+        
+        E-mail: cs-san@cisco.com, cs-lan-switch-snmp@cisco.com"
+    DESCRIPTION
+        "MIB representation of the Cisco Unified Computing System
+        NETWORK management information model package"
+    ::= { ciscoUnifiedComputingMIBObjects 32 }
+
+cucsNetworkElementTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsNetworkElementEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS network:Element managed object table"
+    ::= { cucsNetworkObjects 1 }
+
+cucsNetworkElementEntry OBJECT-TYPE
+    SYNTAX           CucsNetworkElementEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsNetworkElementTable table."
+    INDEX { cucsNetworkElementInstanceId }
+    ::= { cucsNetworkElementTable 1 }
+
+CucsNetworkElementEntry ::= SEQUENCE {
+    cucsNetworkElementInstanceId                                     CucsManagedObjectId,
+    cucsNetworkElementDn                                             CucsManagedObjectDn,
+    cucsNetworkElementRn                                             SnmpAdminString,
+    cucsNetworkElementAdminInbandIfState                             CucsMgmtAdminState,
+    cucsNetworkElementFltAggr                                        Unsigned64,
+    cucsNetworkElementId                                             CucsNetworkSwitchId,
+    cucsNetworkElementInbandIfGw                                     InetAddressIPv4,
+    cucsNetworkElementInbandIfIp                                     InetAddressIPv4,
+    cucsNetworkElementInbandIfMask                                   InetAddressIPv4,
+    cucsNetworkElementInbandIfVnet                                   Gauge32,
+    cucsNetworkElementModel                                          SnmpAdminString,
+    cucsNetworkElementOobIfGw                                        InetAddressIPv4,
+    cucsNetworkElementOobIfIp                                        InetAddressIPv4,
+    cucsNetworkElementOobIfMask                                      InetAddressIPv4,
+    cucsNetworkElementOperability                                    CucsNetworkElementOperability,
+    cucsNetworkElementRevision                                       SnmpAdminString,
+    cucsNetworkElementSerial                                         SnmpAdminString,
+    cucsNetworkElementTotalMemory                                    Gauge32,
+    cucsNetworkElementVendor                                         SnmpAdminString
+}
+
+cucsNetworkElementInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsNetworkElementEntry 1 }
+
+cucsNetworkElementDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:dn managed object property"
+    ::= { cucsNetworkElementEntry 2 }
+
+cucsNetworkElementRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:rn managed object property"
+    ::= { cucsNetworkElementEntry 3 }
+
+cucsNetworkElementAdminInbandIfState OBJECT-TYPE
+    SYNTAX       CucsMgmtAdminState
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:adminInbandIfState managed
+        object property"
+    ::= { cucsNetworkElementEntry 4 }
+
+cucsNetworkElementFltAggr OBJECT-TYPE
+    SYNTAX       Unsigned64
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:fltAggr managed object property"
+    ::= { cucsNetworkElementEntry 5 }
+
+cucsNetworkElementId OBJECT-TYPE
+    SYNTAX       CucsNetworkSwitchId
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:id managed object property"
+    ::= { cucsNetworkElementEntry 6 }
+
+cucsNetworkElementInbandIfGw OBJECT-TYPE
+    SYNTAX       InetAddressIPv4
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:inbandIfGw managed object property"
+    ::= { cucsNetworkElementEntry 7 }
+
+cucsNetworkElementInbandIfIp OBJECT-TYPE
+    SYNTAX       InetAddressIPv4
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:inbandIfIp managed object property"
+    ::= { cucsNetworkElementEntry 8 }
+
+cucsNetworkElementInbandIfMask OBJECT-TYPE
+    SYNTAX       InetAddressIPv4
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:inbandIfMask managed object property"
+    ::= { cucsNetworkElementEntry 9 }
+
+cucsNetworkElementInbandIfVnet OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:inbandIfVnet managed object property"
+    ::= { cucsNetworkElementEntry 10 }
+
+cucsNetworkElementModel OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:model managed object property"
+    ::= { cucsNetworkElementEntry 11 }
+
+cucsNetworkElementOobIfGw OBJECT-TYPE
+    SYNTAX       InetAddressIPv4
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:oobIfGw managed object property"
+    ::= { cucsNetworkElementEntry 12 }
+
+cucsNetworkElementOobIfIp OBJECT-TYPE
+    SYNTAX       InetAddressIPv4
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:oobIfIp managed object property"
+    ::= { cucsNetworkElementEntry 13 }
+
+cucsNetworkElementOobIfMask OBJECT-TYPE
+    SYNTAX       InetAddressIPv4
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:oobIfMask managed object property"
+    ::= { cucsNetworkElementEntry 14 }
+
+cucsNetworkElementOperability OBJECT-TYPE
+    SYNTAX       CucsNetworkElementOperability
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:operability managed object property"
+    ::= { cucsNetworkElementEntry 15 }
+
+cucsNetworkElementRevision OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:revision managed object property"
+    ::= { cucsNetworkElementEntry 16 }
+
+cucsNetworkElementSerial OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:serial managed object property"
+    ::= { cucsNetworkElementEntry 17 }
+
+cucsNetworkElementTotalMemory OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:totalMemory managed object property"
+    ::= { cucsNetworkElementEntry 18 }
+
+cucsNetworkElementVendor OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:Element:vendor managed object property"
+    ::= { cucsNetworkElementEntry 19 }
+
+cucsNetworkIfStatsTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsNetworkIfStatsEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS network:IfStats managed object table"
+    ::= { cucsNetworkObjects 2 }
+
+cucsNetworkIfStatsEntry OBJECT-TYPE
+    SYNTAX           CucsNetworkIfStatsEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsNetworkIfStatsTable table."
+    INDEX { cucsNetworkIfStatsInstanceId }
+    ::= { cucsNetworkIfStatsTable 1 }
+
+CucsNetworkIfStatsEntry ::= SEQUENCE {
+    cucsNetworkIfStatsInstanceId                                     CucsManagedObjectId,
+    cucsNetworkIfStatsDn                                             CucsManagedObjectDn,
+    cucsNetworkIfStatsRn                                             SnmpAdminString,
+    cucsNetworkIfStatsIn                                             Unsigned64,
+    cucsNetworkIfStatsOut                                            Unsigned64,
+    cucsNetworkIfStatsType                                           CucsNetworkIfStatsType,
+    cucsNetworkIfStatsUnits                                          CucsNetworkIfStatsUnits
+}
+
+cucsNetworkIfStatsInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsNetworkIfStatsEntry 1 }
+
+cucsNetworkIfStatsDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:IfStats:dn managed object property"
+    ::= { cucsNetworkIfStatsEntry 2 }
+
+cucsNetworkIfStatsRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:IfStats:rn managed object property"
+    ::= { cucsNetworkIfStatsEntry 3 }
+
+cucsNetworkIfStatsIn OBJECT-TYPE
+    SYNTAX       Unsigned64
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:IfStats:in managed object property"
+    ::= { cucsNetworkIfStatsEntry 4 }
+
+cucsNetworkIfStatsOut OBJECT-TYPE
+    SYNTAX       Unsigned64
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:IfStats:out managed object property"
+    ::= { cucsNetworkIfStatsEntry 5 }
+
+cucsNetworkIfStatsType OBJECT-TYPE
+    SYNTAX       CucsNetworkIfStatsType
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:IfStats:type managed object property"
+    ::= { cucsNetworkIfStatsEntry 6 }
+
+cucsNetworkIfStatsUnits OBJECT-TYPE
+    SYNTAX       CucsNetworkIfStatsUnits
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS network:IfStats:units managed object property"
+    ::= { cucsNetworkIfStatsEntry 7 }
+
+END

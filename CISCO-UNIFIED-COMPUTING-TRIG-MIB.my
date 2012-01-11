@@ -1,0 +1,726 @@
+-- *********************************************************************
+-- CISCO-UNIFIED-COMPUTING-TRIG-MIB.my
+-- 
+-- MIB representation of the Cisco Unified Computing System
+-- TRIG management information model package
+-- 
+-- Created September 2011 by Charles Bullis
+-- 
+-- Copyright (c) 2005-2011 Cisco Systems, Inc. All rights reserved.
+-- 
+-- *********************************************************************
+
+CISCO-UNIFIED-COMPUTING-TRIG-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY,
+    OBJECT-TYPE,
+    Counter32,
+    Gauge32,
+    TimeTicks,
+    Counter64,
+    Unsigned32
+        FROM SNMPv2-SMI
+    TEXTUAL-CONVENTION,
+    RowPointer,
+    DateAndTime,
+    DisplayString,
+    MacAddress,
+    TimeInterval,
+    TimeStamp,
+    TruthValue
+        FROM SNMPv2-TC
+    SnmpAdminString
+        FROM SNMP-FRAMEWORK-MIB
+    InetAddressIPv4,
+    InetAddressIPv6
+        FROM INET-ADDRESS-MIB
+    ciscoMgmt
+        FROM CISCO-SMI
+    CiscoNetworkAddress,
+    Unsigned64,
+    CiscoInetAddressMask,
+    CiscoAlarmSeverity,
+    TimeIntervalSec
+        FROM CISCO-TC
+    ciscoUnifiedComputingMIBObjects,
+    CucsManagedObjectId,
+    CucsManagedObjectDn
+        FROM CISCO-UNIFIED-COMPUTING-MIB
+    CucsTrigAdminState,
+    CucsTrigDay,
+    CucsTrigOperState,
+    CucsTrigTriggeredState
+        FROM CISCO-UNIFIED-COMPUTING-TC-MIB;
+
+cucsTrigObjects MODULE-IDENTITY
+    LAST-UPDATED    "201109150000Z"
+    ORGANIZATION    "Cisco Systems Inc."
+    CONTACT-INFO
+        "Cisco Systems
+        Customer Service
+        
+        Postal: 170 W Tasman Drive
+        San Jose, CA  95134
+        USA
+        
+        Tel: +1 800 553 -NETS
+        
+        E-mail: cs-san@cisco.com, cs-lan-switch-snmp@cisco.com"
+    DESCRIPTION
+        "MIB representation of the Cisco Unified Computing System
+        TRIG management information model package"
+    ::= { ciscoUnifiedComputingMIBObjects 50 }
+
+cucsTrigAbsWindowTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTrigAbsWindowEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow managed object table"
+    ::= { cucsTrigObjects 1 }
+
+cucsTrigAbsWindowEntry OBJECT-TYPE
+    SYNTAX           CucsTrigAbsWindowEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTrigAbsWindowTable table."
+    INDEX { cucsTrigAbsWindowInstanceId }
+    ::= { cucsTrigAbsWindowTable 1 }
+
+CucsTrigAbsWindowEntry ::= SEQUENCE {
+    cucsTrigAbsWindowInstanceId                                      CucsManagedObjectId,
+    cucsTrigAbsWindowDn                                              CucsManagedObjectDn,
+    cucsTrigAbsWindowRn                                              SnmpAdminString,
+    cucsTrigAbsWindowConcurCap                                       Gauge32,
+    cucsTrigAbsWindowDate                                            DateAndTime,
+    cucsTrigAbsWindowJobCount                                        Gauge32,
+    cucsTrigAbsWindowName                                            SnmpAdminString,
+    cucsTrigAbsWindowProcBreak                                       SnmpAdminString,
+    cucsTrigAbsWindowProcCap                                         Gauge32,
+    cucsTrigAbsWindowTimeCap                                         SnmpAdminString
+}
+
+cucsTrigAbsWindowInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTrigAbsWindowEntry 1 }
+
+cucsTrigAbsWindowDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:dn managed object property"
+    ::= { cucsTrigAbsWindowEntry 2 }
+
+cucsTrigAbsWindowRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:rn managed object property"
+    ::= { cucsTrigAbsWindowEntry 3 }
+
+cucsTrigAbsWindowConcurCap OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:concurCap managed object property"
+    ::= { cucsTrigAbsWindowEntry 4 }
+
+cucsTrigAbsWindowDate OBJECT-TYPE
+    SYNTAX       DateAndTime
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:date managed object property"
+    ::= { cucsTrigAbsWindowEntry 5 }
+
+cucsTrigAbsWindowJobCount OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:jobCount managed object property"
+    ::= { cucsTrigAbsWindowEntry 6 }
+
+cucsTrigAbsWindowName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:name managed object property"
+    ::= { cucsTrigAbsWindowEntry 7 }
+
+cucsTrigAbsWindowProcBreak OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:procBreak managed object property"
+    ::= { cucsTrigAbsWindowEntry 8 }
+
+cucsTrigAbsWindowProcCap OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:procCap managed object property"
+    ::= { cucsTrigAbsWindowEntry 9 }
+
+cucsTrigAbsWindowTimeCap OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:AbsWindow:timeCap managed object property"
+    ::= { cucsTrigAbsWindowEntry 10 }
+
+cucsTrigMetaTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTrigMetaEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS trig:Meta managed object table"
+    ::= { cucsTrigObjects 2 }
+
+cucsTrigMetaEntry OBJECT-TYPE
+    SYNTAX           CucsTrigMetaEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTrigMetaTable table."
+    INDEX { cucsTrigMetaInstanceId }
+    ::= { cucsTrigMetaTable 1 }
+
+CucsTrigMetaEntry ::= SEQUENCE {
+    cucsTrigMetaInstanceId                                           CucsManagedObjectId,
+    cucsTrigMetaDn                                                   CucsManagedObjectDn,
+    cucsTrigMetaRn                                                   SnmpAdminString,
+    cucsTrigMetaAdminState                                           CucsTrigAdminState,
+    cucsTrigMetaDescr                                                SnmpAdminString,
+    cucsTrigMetaIntId                                                SnmpAdminString,
+    cucsTrigMetaJobCount                                             Gauge32,
+    cucsTrigMetaName                                                 SnmpAdminString,
+    cucsTrigMetaOperState                                            CucsTrigOperState,
+    cucsTrigMetaSchedName                                            SnmpAdminString,
+    cucsTrigMetaTrigTime                                             DateAndTime,
+    cucsTrigMetaWindowDn                                             SnmpAdminString
+}
+
+cucsTrigMetaInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTrigMetaEntry 1 }
+
+cucsTrigMetaDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:dn managed object property"
+    ::= { cucsTrigMetaEntry 2 }
+
+cucsTrigMetaRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:rn managed object property"
+    ::= { cucsTrigMetaEntry 3 }
+
+cucsTrigMetaAdminState OBJECT-TYPE
+    SYNTAX       CucsTrigAdminState
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:adminState managed object property"
+    ::= { cucsTrigMetaEntry 4 }
+
+cucsTrigMetaDescr OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:descr managed object property"
+    ::= { cucsTrigMetaEntry 5 }
+
+cucsTrigMetaIntId OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:intId managed object property"
+    ::= { cucsTrigMetaEntry 6 }
+
+cucsTrigMetaJobCount OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:jobCount managed object property"
+    ::= { cucsTrigMetaEntry 7 }
+
+cucsTrigMetaName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:name managed object property"
+    ::= { cucsTrigMetaEntry 8 }
+
+cucsTrigMetaOperState OBJECT-TYPE
+    SYNTAX       CucsTrigOperState
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:operState managed object property"
+    ::= { cucsTrigMetaEntry 9 }
+
+cucsTrigMetaSchedName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:schedName managed object property"
+    ::= { cucsTrigMetaEntry 10 }
+
+cucsTrigMetaTrigTime OBJECT-TYPE
+    SYNTAX       DateAndTime
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:trigTime managed object property"
+    ::= { cucsTrigMetaEntry 11 }
+
+cucsTrigMetaWindowDn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Meta:windowDn managed object property"
+    ::= { cucsTrigMetaEntry 12 }
+
+cucsTrigRecurrWindowTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTrigRecurrWindowEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow managed object table"
+    ::= { cucsTrigObjects 3 }
+
+cucsTrigRecurrWindowEntry OBJECT-TYPE
+    SYNTAX           CucsTrigRecurrWindowEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTrigRecurrWindowTable table."
+    INDEX { cucsTrigRecurrWindowInstanceId }
+    ::= { cucsTrigRecurrWindowTable 1 }
+
+CucsTrigRecurrWindowEntry ::= SEQUENCE {
+    cucsTrigRecurrWindowInstanceId                                   CucsManagedObjectId,
+    cucsTrigRecurrWindowDn                                           CucsManagedObjectDn,
+    cucsTrigRecurrWindowRn                                           SnmpAdminString,
+    cucsTrigRecurrWindowConcurCap                                    Gauge32,
+    cucsTrigRecurrWindowDay                                          CucsTrigDay,
+    cucsTrigRecurrWindowHour                                         Gauge32,
+    cucsTrigRecurrWindowJobCount                                     Gauge32,
+    cucsTrigRecurrWindowMinute                                       Gauge32,
+    cucsTrigRecurrWindowName                                         SnmpAdminString,
+    cucsTrigRecurrWindowProcBreak                                    SnmpAdminString,
+    cucsTrigRecurrWindowProcCap                                      Gauge32,
+    cucsTrigRecurrWindowTimeCap                                      SnmpAdminString
+}
+
+cucsTrigRecurrWindowInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTrigRecurrWindowEntry 1 }
+
+cucsTrigRecurrWindowDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:dn managed object property"
+    ::= { cucsTrigRecurrWindowEntry 2 }
+
+cucsTrigRecurrWindowRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:rn managed object property"
+    ::= { cucsTrigRecurrWindowEntry 3 }
+
+cucsTrigRecurrWindowConcurCap OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:concurCap managed object property"
+    ::= { cucsTrigRecurrWindowEntry 4 }
+
+cucsTrigRecurrWindowDay OBJECT-TYPE
+    SYNTAX       CucsTrigDay
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:day managed object property"
+    ::= { cucsTrigRecurrWindowEntry 5 }
+
+cucsTrigRecurrWindowHour OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:hour managed object property"
+    ::= { cucsTrigRecurrWindowEntry 6 }
+
+cucsTrigRecurrWindowJobCount OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:jobCount managed object property"
+    ::= { cucsTrigRecurrWindowEntry 7 }
+
+cucsTrigRecurrWindowMinute OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:minute managed object property"
+    ::= { cucsTrigRecurrWindowEntry 8 }
+
+cucsTrigRecurrWindowName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:name managed object property"
+    ::= { cucsTrigRecurrWindowEntry 9 }
+
+cucsTrigRecurrWindowProcBreak OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:procBreak managed object property"
+    ::= { cucsTrigRecurrWindowEntry 10 }
+
+cucsTrigRecurrWindowProcCap OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:procCap managed object property"
+    ::= { cucsTrigRecurrWindowEntry 11 }
+
+cucsTrigRecurrWindowTimeCap OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:RecurrWindow:timeCap managed object property"
+    ::= { cucsTrigRecurrWindowEntry 12 }
+
+cucsTrigSchedTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTrigSchedEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS trig:Sched managed object table"
+    ::= { cucsTrigObjects 4 }
+
+cucsTrigSchedEntry OBJECT-TYPE
+    SYNTAX           CucsTrigSchedEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTrigSchedTable table."
+    INDEX { cucsTrigSchedInstanceId }
+    ::= { cucsTrigSchedTable 1 }
+
+CucsTrigSchedEntry ::= SEQUENCE {
+    cucsTrigSchedInstanceId                                          CucsManagedObjectId,
+    cucsTrigSchedDn                                                  CucsManagedObjectDn,
+    cucsTrigSchedRn                                                  SnmpAdminString,
+    cucsTrigSchedAdminState                                          CucsTrigAdminState,
+    cucsTrigSchedDescr                                               SnmpAdminString,
+    cucsTrigSchedIntId                                               SnmpAdminString,
+    cucsTrigSchedName                                                SnmpAdminString,
+    cucsTrigSchedOperState                                           CucsTrigOperState
+}
+
+cucsTrigSchedInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTrigSchedEntry 1 }
+
+cucsTrigSchedDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Sched:dn managed object property"
+    ::= { cucsTrigSchedEntry 2 }
+
+cucsTrigSchedRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Sched:rn managed object property"
+    ::= { cucsTrigSchedEntry 3 }
+
+cucsTrigSchedAdminState OBJECT-TYPE
+    SYNTAX       CucsTrigAdminState
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Sched:adminState managed object property"
+    ::= { cucsTrigSchedEntry 4 }
+
+cucsTrigSchedDescr OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Sched:descr managed object property"
+    ::= { cucsTrigSchedEntry 5 }
+
+cucsTrigSchedIntId OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Sched:intId managed object property"
+    ::= { cucsTrigSchedEntry 6 }
+
+cucsTrigSchedName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Sched:name managed object property"
+    ::= { cucsTrigSchedEntry 7 }
+
+cucsTrigSchedOperState OBJECT-TYPE
+    SYNTAX       CucsTrigOperState
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Sched:operState managed object property"
+    ::= { cucsTrigSchedEntry 8 }
+
+cucsTrigTestTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTrigTestEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS trig:Test managed object table"
+    ::= { cucsTrigObjects 5 }
+
+cucsTrigTestEntry OBJECT-TYPE
+    SYNTAX           CucsTrigTestEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTrigTestTable table."
+    INDEX { cucsTrigTestInstanceId }
+    ::= { cucsTrigTestTable 1 }
+
+CucsTrigTestEntry ::= SEQUENCE {
+    cucsTrigTestInstanceId                                           CucsManagedObjectId,
+    cucsTrigTestDn                                                   CucsManagedObjectDn,
+    cucsTrigTestRn                                                   SnmpAdminString,
+    cucsTrigTestAdminState                                           CucsTrigAdminState,
+    cucsTrigTestCreationDate                                         DateAndTime,
+    cucsTrigTestDescr                                                SnmpAdminString,
+    cucsTrigTestIntId                                                SnmpAdminString,
+    cucsTrigTestName                                                 SnmpAdminString,
+    cucsTrigTestScheduler                                            SnmpAdminString
+}
+
+cucsTrigTestInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTrigTestEntry 1 }
+
+cucsTrigTestDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Test:dn managed object property"
+    ::= { cucsTrigTestEntry 2 }
+
+cucsTrigTestRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Test:rn managed object property"
+    ::= { cucsTrigTestEntry 3 }
+
+cucsTrigTestAdminState OBJECT-TYPE
+    SYNTAX       CucsTrigAdminState
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Test:adminState managed object property"
+    ::= { cucsTrigTestEntry 4 }
+
+cucsTrigTestCreationDate OBJECT-TYPE
+    SYNTAX       DateAndTime
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Test:creationDate managed object property"
+    ::= { cucsTrigTestEntry 5 }
+
+cucsTrigTestDescr OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Test:descr managed object property"
+    ::= { cucsTrigTestEntry 6 }
+
+cucsTrigTestIntId OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Test:intId managed object property"
+    ::= { cucsTrigTestEntry 7 }
+
+cucsTrigTestName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Test:name managed object property"
+    ::= { cucsTrigTestEntry 8 }
+
+cucsTrigTestScheduler OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Test:scheduler managed object property"
+    ::= { cucsTrigTestEntry 9 }
+
+cucsTrigTriggeredTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTrigTriggeredEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS trig:Triggered managed object table"
+    ::= { cucsTrigObjects 6 }
+
+cucsTrigTriggeredEntry OBJECT-TYPE
+    SYNTAX           CucsTrigTriggeredEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTrigTriggeredTable table."
+    INDEX { cucsTrigTriggeredInstanceId }
+    ::= { cucsTrigTriggeredTable 1 }
+
+CucsTrigTriggeredEntry ::= SEQUENCE {
+    cucsTrigTriggeredInstanceId                                      CucsManagedObjectId,
+    cucsTrigTriggeredDn                                              CucsManagedObjectDn,
+    cucsTrigTriggeredRn                                              SnmpAdminString,
+    cucsTrigTriggeredJobCount                                        Gauge32,
+    cucsTrigTriggeredOperState                                       CucsTrigTriggeredState,
+    cucsTrigTriggeredOrder                                           Gauge32,
+    cucsTrigTriggeredTrDn                                            SnmpAdminString,
+    cucsTrigTriggeredTrId                                            Gauge32
+}
+
+cucsTrigTriggeredInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTrigTriggeredEntry 1 }
+
+cucsTrigTriggeredDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Triggered:dn managed object property"
+    ::= { cucsTrigTriggeredEntry 2 }
+
+cucsTrigTriggeredRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Triggered:rn managed object property"
+    ::= { cucsTrigTriggeredEntry 3 }
+
+cucsTrigTriggeredJobCount OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Triggered:jobCount managed object property"
+    ::= { cucsTrigTriggeredEntry 4 }
+
+cucsTrigTriggeredOperState OBJECT-TYPE
+    SYNTAX       CucsTrigTriggeredState
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Triggered:operState managed object property"
+    ::= { cucsTrigTriggeredEntry 5 }
+
+cucsTrigTriggeredOrder OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Triggered:order managed object property"
+    ::= { cucsTrigTriggeredEntry 6 }
+
+cucsTrigTriggeredTrDn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Triggered:trDn managed object property"
+    ::= { cucsTrigTriggeredEntry 7 }
+
+cucsTrigTriggeredTrId OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS trig:Triggered:trId managed object property"
+    ::= { cucsTrigTriggeredEntry 8 }
+
+END

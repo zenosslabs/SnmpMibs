@@ -1,0 +1,317 @@
+-- *********************************************************************
+-- CISCO-UNIFIED-COMPUTING-SYSFILE-MIB.my
+-- 
+-- MIB representation of the Cisco Unified Computing System
+-- SYSFILE management information model package
+-- 
+-- Created September 2011 by Charles Bullis
+-- 
+-- Copyright (c) 2005-2011 Cisco Systems, Inc. All rights reserved.
+-- 
+-- *********************************************************************
+
+CISCO-UNIFIED-COMPUTING-SYSFILE-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY,
+    OBJECT-TYPE,
+    Counter32,
+    Gauge32,
+    TimeTicks,
+    Counter64,
+    Unsigned32
+        FROM SNMPv2-SMI
+    TEXTUAL-CONVENTION,
+    RowPointer,
+    DateAndTime,
+    DisplayString,
+    MacAddress,
+    TimeInterval,
+    TimeStamp,
+    TruthValue
+        FROM SNMPv2-TC
+    SnmpAdminString
+        FROM SNMP-FRAMEWORK-MIB
+    InetAddressIPv4,
+    InetAddressIPv6
+        FROM INET-ADDRESS-MIB
+    ciscoMgmt
+        FROM CISCO-SMI
+    CiscoNetworkAddress,
+    Unsigned64,
+    CiscoInetAddressMask,
+    CiscoAlarmSeverity,
+    TimeIntervalSec
+        FROM CISCO-TC
+    ciscoUnifiedComputingMIBObjects,
+    CucsManagedObjectId,
+    CucsManagedObjectDn
+        FROM CISCO-UNIFIED-COMPUTING-MIB
+    CucsConditionRemoteInvRslt,
+    CucsFsmCompletion,
+    CucsFsmFlags,
+    CucsSysfileMutationAction,
+    CucsSysfileMutationFsmTaskItem
+        FROM CISCO-UNIFIED-COMPUTING-TC-MIB;
+
+cucsSysfileObjects MODULE-IDENTITY
+    LAST-UPDATED    "201109150000Z"
+    ORGANIZATION    "Cisco Systems Inc."
+    CONTACT-INFO
+        "Cisco Systems
+        Customer Service
+        
+        Postal: 170 W Tasman Drive
+        San Jose, CA  95134
+        USA
+        
+        Tel: +1 800 553 -NETS
+        
+        E-mail: cs-san@cisco.com, cs-lan-switch-snmp@cisco.com"
+    DESCRIPTION
+        "MIB representation of the Cisco Unified Computing System
+        SYSFILE management information model package"
+    ::= { ciscoUnifiedComputingMIBObjects 48 }
+
+cucsSysfileMutationTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsSysfileMutationEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation managed object table"
+    ::= { cucsSysfileObjects 1 }
+
+cucsSysfileMutationEntry OBJECT-TYPE
+    SYNTAX           CucsSysfileMutationEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsSysfileMutationTable table."
+    INDEX { cucsSysfileMutationInstanceId }
+    ::= { cucsSysfileMutationTable 1 }
+
+CucsSysfileMutationEntry ::= SEQUENCE {
+    cucsSysfileMutationInstanceId                                    CucsManagedObjectId,
+    cucsSysfileMutationDn                                            CucsManagedObjectDn,
+    cucsSysfileMutationRn                                            SnmpAdminString,
+    cucsSysfileMutationAction                                        CucsSysfileMutationAction,
+    cucsSysfileMutationDescr                                         SnmpAdminString,
+    cucsSysfileMutationFsmDescr                                      SnmpAdminString,
+    cucsSysfileMutationFsmPrev                                       SnmpAdminString,
+    cucsSysfileMutationFsmProgr                                      Gauge32,
+    cucsSysfileMutationFsmRmtInvErrCode                              Gauge32,
+    cucsSysfileMutationFsmRmtInvErrDescr                             SnmpAdminString,
+    cucsSysfileMutationFsmRmtInvRslt                                 CucsConditionRemoteInvRslt,
+    cucsSysfileMutationFsmStageDescr                                 SnmpAdminString,
+    cucsSysfileMutationFsmStamp                                      DateAndTime,
+    cucsSysfileMutationFsmStatus                                     SnmpAdminString,
+    cucsSysfileMutationFsmTry                                        Gauge32
+}
+
+cucsSysfileMutationInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsSysfileMutationEntry 1 }
+
+cucsSysfileMutationDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:dn managed object property"
+    ::= { cucsSysfileMutationEntry 2 }
+
+cucsSysfileMutationRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:rn managed object property"
+    ::= { cucsSysfileMutationEntry 3 }
+
+cucsSysfileMutationAction OBJECT-TYPE
+    SYNTAX       CucsSysfileMutationAction
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:action managed object property"
+    ::= { cucsSysfileMutationEntry 4 }
+
+cucsSysfileMutationDescr OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:descr managed object property"
+    ::= { cucsSysfileMutationEntry 5 }
+
+cucsSysfileMutationFsmDescr OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmDescr managed object property"
+    ::= { cucsSysfileMutationEntry 6 }
+
+cucsSysfileMutationFsmPrev OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmPrev managed object property"
+    ::= { cucsSysfileMutationEntry 7 }
+
+cucsSysfileMutationFsmProgr OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmProgr managed object property"
+    ::= { cucsSysfileMutationEntry 8 }
+
+cucsSysfileMutationFsmRmtInvErrCode OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmRmtInvErrCode managed
+        object property"
+    ::= { cucsSysfileMutationEntry 9 }
+
+cucsSysfileMutationFsmRmtInvErrDescr OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmRmtInvErrDescr managed
+        object property"
+    ::= { cucsSysfileMutationEntry 10 }
+
+cucsSysfileMutationFsmRmtInvRslt OBJECT-TYPE
+    SYNTAX       CucsConditionRemoteInvRslt
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmRmtInvRslt managed object property"
+    ::= { cucsSysfileMutationEntry 11 }
+
+cucsSysfileMutationFsmStageDescr OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmStageDescr managed object property"
+    ::= { cucsSysfileMutationEntry 12 }
+
+cucsSysfileMutationFsmStamp OBJECT-TYPE
+    SYNTAX       DateAndTime
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmStamp managed object property"
+    ::= { cucsSysfileMutationEntry 13 }
+
+cucsSysfileMutationFsmStatus OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmStatus managed object property"
+    ::= { cucsSysfileMutationEntry 14 }
+
+cucsSysfileMutationFsmTry OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:Mutation:fsmTry managed object property"
+    ::= { cucsSysfileMutationEntry 15 }
+
+cucsSysfileMutationFsmTaskTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsSysfileMutationFsmTaskEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS sysfile:MutationFsmTask managed object table"
+    ::= { cucsSysfileObjects 2 }
+
+cucsSysfileMutationFsmTaskEntry OBJECT-TYPE
+    SYNTAX           CucsSysfileMutationFsmTaskEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsSysfileMutationFsmTaskTable table."
+    INDEX { cucsSysfileMutationFsmTaskInstanceId }
+    ::= { cucsSysfileMutationFsmTaskTable 1 }
+
+CucsSysfileMutationFsmTaskEntry ::= SEQUENCE {
+    cucsSysfileMutationFsmTaskInstanceId                             CucsManagedObjectId,
+    cucsSysfileMutationFsmTaskDn                                     CucsManagedObjectDn,
+    cucsSysfileMutationFsmTaskRn                                     SnmpAdminString,
+    cucsSysfileMutationFsmTaskCompletion                             CucsFsmCompletion,
+    cucsSysfileMutationFsmTaskFlags                                  CucsFsmFlags,
+    cucsSysfileMutationFsmTaskItem                                   CucsSysfileMutationFsmTaskItem,
+    cucsSysfileMutationFsmTaskSeqId                                  Gauge32
+}
+
+cucsSysfileMutationFsmTaskInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsSysfileMutationFsmTaskEntry 1 }
+
+cucsSysfileMutationFsmTaskDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:MutationFsmTask:dn managed object property"
+    ::= { cucsSysfileMutationFsmTaskEntry 2 }
+
+cucsSysfileMutationFsmTaskRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:MutationFsmTask:rn managed object property"
+    ::= { cucsSysfileMutationFsmTaskEntry 3 }
+
+cucsSysfileMutationFsmTaskCompletion OBJECT-TYPE
+    SYNTAX       CucsFsmCompletion
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:MutationFsmTask:completion managed
+        object property"
+    ::= { cucsSysfileMutationFsmTaskEntry 4 }
+
+cucsSysfileMutationFsmTaskFlags OBJECT-TYPE
+    SYNTAX       CucsFsmFlags
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:MutationFsmTask:flags managed object property"
+    ::= { cucsSysfileMutationFsmTaskEntry 5 }
+
+cucsSysfileMutationFsmTaskItem OBJECT-TYPE
+    SYNTAX       CucsSysfileMutationFsmTaskItem
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:MutationFsmTask:item managed object property"
+    ::= { cucsSysfileMutationFsmTaskEntry 6 }
+
+cucsSysfileMutationFsmTaskSeqId OBJECT-TYPE
+    SYNTAX       Gauge32
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS sysfile:MutationFsmTask:seqId managed object property"
+    ::= { cucsSysfileMutationFsmTaskEntry 7 }
+
+END

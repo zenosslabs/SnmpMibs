@@ -1,0 +1,323 @@
+-- *********************************************************************
+-- CISCO-UNIFIED-COMPUTING-TOP-MIB.my
+-- 
+-- MIB representation of the Cisco Unified Computing System
+-- TOP management information model package
+-- 
+-- Created September 2011 by Charles Bullis
+-- 
+-- Copyright (c) 2005-2011 Cisco Systems, Inc. All rights reserved.
+-- 
+-- *********************************************************************
+
+CISCO-UNIFIED-COMPUTING-TOP-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY,
+    OBJECT-TYPE,
+    Counter32,
+    Gauge32,
+    TimeTicks,
+    Counter64,
+    Unsigned32
+        FROM SNMPv2-SMI
+    TEXTUAL-CONVENTION,
+    RowPointer,
+    DateAndTime,
+    DisplayString,
+    MacAddress,
+    TimeInterval,
+    TimeStamp,
+    TruthValue
+        FROM SNMPv2-TC
+    SnmpAdminString
+        FROM SNMP-FRAMEWORK-MIB
+    InetAddressIPv4,
+    InetAddressIPv6
+        FROM INET-ADDRESS-MIB
+    ciscoMgmt
+        FROM CISCO-SMI
+    CiscoNetworkAddress,
+    Unsigned64,
+    CiscoInetAddressMask,
+    CiscoAlarmSeverity,
+    TimeIntervalSec
+        FROM CISCO-TC
+    ciscoUnifiedComputingMIBObjects,
+    CucsManagedObjectId,
+    CucsManagedObjectDn
+        FROM CISCO-UNIFIED-COMPUTING-MIB
+    CucsTopMode
+        FROM CISCO-UNIFIED-COMPUTING-TC-MIB;
+
+cucsTopObjects MODULE-IDENTITY
+    LAST-UPDATED    "201109150000Z"
+    ORGANIZATION    "Cisco Systems Inc."
+    CONTACT-INFO
+        "Cisco Systems
+        Customer Service
+        
+        Postal: 170 W Tasman Drive
+        San Jose, CA  95134
+        USA
+        
+        Tel: +1 800 553 -NETS
+        
+        E-mail: cs-san@cisco.com, cs-lan-switch-snmp@cisco.com"
+    DESCRIPTION
+        "MIB representation of the Cisco Unified Computing System
+        TOP management information model package"
+    ::= { ciscoUnifiedComputingMIBObjects 49 }
+
+cucsTopMetaInfTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTopMetaInfEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS top:MetaInf managed object table"
+    ::= { cucsTopObjects 1 }
+
+cucsTopMetaInfEntry OBJECT-TYPE
+    SYNTAX           CucsTopMetaInfEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTopMetaInfTable table."
+    INDEX { cucsTopMetaInfInstanceId }
+    ::= { cucsTopMetaInfTable 1 }
+
+CucsTopMetaInfEntry ::= SEQUENCE {
+    cucsTopMetaInfInstanceId                                         CucsManagedObjectId,
+    cucsTopMetaInfDn                                                 CucsManagedObjectDn,
+    cucsTopMetaInfRn                                                 SnmpAdminString,
+    cucsTopMetaInfEcode                                              SnmpAdminString,
+    cucsTopMetaInfName                                               SnmpAdminString
+}
+
+cucsTopMetaInfInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTopMetaInfEntry 1 }
+
+cucsTopMetaInfDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:MetaInf:dn managed object property"
+    ::= { cucsTopMetaInfEntry 2 }
+
+cucsTopMetaInfRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:MetaInf:rn managed object property"
+    ::= { cucsTopMetaInfEntry 3 }
+
+cucsTopMetaInfEcode OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:MetaInf:ecode managed object property"
+    ::= { cucsTopMetaInfEntry 4 }
+
+cucsTopMetaInfName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:MetaInf:name managed object property"
+    ::= { cucsTopMetaInfEntry 5 }
+
+cucsTopRootTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTopRootEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS top:Root managed object table"
+    ::= { cucsTopObjects 2 }
+
+cucsTopRootEntry OBJECT-TYPE
+    SYNTAX           CucsTopRootEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTopRootTable table."
+    INDEX { cucsTopRootInstanceId }
+    ::= { cucsTopRootTable 1 }
+
+CucsTopRootEntry ::= SEQUENCE {
+    cucsTopRootInstanceId                                            CucsManagedObjectId,
+    cucsTopRootDn                                                    CucsManagedObjectDn,
+    cucsTopRootRn                                                    SnmpAdminString
+}
+
+cucsTopRootInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTopRootEntry 1 }
+
+cucsTopRootDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:Root:dn managed object property"
+    ::= { cucsTopRootEntry 2 }
+
+cucsTopRootRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:Root:rn managed object property"
+    ::= { cucsTopRootEntry 3 }
+
+cucsTopSysDefaultsTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTopSysDefaultsEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS top:SysDefaults managed object table"
+    ::= { cucsTopObjects 4 }
+
+cucsTopSysDefaultsEntry OBJECT-TYPE
+    SYNTAX           CucsTopSysDefaultsEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTopSysDefaultsTable table."
+    INDEX { cucsTopSysDefaultsInstanceId }
+    ::= { cucsTopSysDefaultsTable 1 }
+
+CucsTopSysDefaultsEntry ::= SEQUENCE {
+    cucsTopSysDefaultsInstanceId                                     CucsManagedObjectId,
+    cucsTopSysDefaultsDn                                             CucsManagedObjectDn,
+    cucsTopSysDefaultsRn                                             SnmpAdminString
+}
+
+cucsTopSysDefaultsInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTopSysDefaultsEntry 1 }
+
+cucsTopSysDefaultsDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:SysDefaults:dn managed object property"
+    ::= { cucsTopSysDefaultsEntry 2 }
+
+cucsTopSysDefaultsRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:SysDefaults:rn managed object property"
+    ::= { cucsTopSysDefaultsEntry 3 }
+
+cucsTopSystemTable OBJECT-TYPE
+    SYNTAX           SEQUENCE OF CucsTopSystemEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Cisco UCS top:System managed object table"
+    ::= { cucsTopObjects 3 }
+
+cucsTopSystemEntry OBJECT-TYPE
+    SYNTAX           CucsTopSystemEntry
+    MAX-ACCESS       not-accessible
+    STATUS           current
+    DESCRIPTION
+        "Entry for the cucsTopSystemTable table."
+    INDEX { cucsTopSystemInstanceId }
+    ::= { cucsTopSystemTable 1 }
+
+CucsTopSystemEntry ::= SEQUENCE {
+    cucsTopSystemInstanceId                                          CucsManagedObjectId,
+    cucsTopSystemDn                                                  CucsManagedObjectDn,
+    cucsTopSystemRn                                                  SnmpAdminString,
+    cucsTopSystemAddress                                             InetAddressIPv4,
+    cucsTopSystemCurrentTime                                         DateAndTime,
+    cucsTopSystemMode                                                CucsTopMode,
+    cucsTopSystemName                                                SnmpAdminString,
+    cucsTopSystemSystemUpTime                                        TimeIntervalSec
+}
+
+cucsTopSystemInstanceId OBJECT-TYPE
+    SYNTAX       CucsManagedObjectId
+    MAX-ACCESS   not-accessible
+    STATUS       current
+    DESCRIPTION
+        "Instance identifier of the managed object."
+    ::= { cucsTopSystemEntry 1 }
+
+cucsTopSystemDn OBJECT-TYPE
+    SYNTAX       CucsManagedObjectDn
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:System:dn managed object property"
+    ::= { cucsTopSystemEntry 2 }
+
+cucsTopSystemRn OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:System:rn managed object property"
+    ::= { cucsTopSystemEntry 3 }
+
+cucsTopSystemAddress OBJECT-TYPE
+    SYNTAX       InetAddressIPv4
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:System:address managed object property"
+    ::= { cucsTopSystemEntry 4 }
+
+cucsTopSystemCurrentTime OBJECT-TYPE
+    SYNTAX       DateAndTime
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:System:currentTime managed object property"
+    ::= { cucsTopSystemEntry 5 }
+
+cucsTopSystemMode OBJECT-TYPE
+    SYNTAX       CucsTopMode
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:System:mode managed object property"
+    ::= { cucsTopSystemEntry 6 }
+
+cucsTopSystemName OBJECT-TYPE
+    SYNTAX       SnmpAdminString
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:System:name managed object property"
+    ::= { cucsTopSystemEntry 7 }
+
+cucsTopSystemSystemUpTime OBJECT-TYPE
+    SYNTAX       TimeIntervalSec
+    MAX-ACCESS   read-only
+    STATUS       current
+    DESCRIPTION
+        "Cisco UCS top:System:systemUpTime managed object property"
+    ::= { cucsTopSystemEntry 8 }
+
+END
